@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from camelot.backends import pdfbox_backend
 import os
 import sys
 import copy
@@ -129,7 +130,13 @@ class Lattice(BaseParser):
         self.threshold_constant = threshold_constant
         self.iterations = iterations
         self.resolution = resolution
-        self.backend = Lattice._get_backend(backend)
+
+        pdfbox_as_backend = kwargs["pdfbox_as_backend"]
+        if pdfbox_as_backend:
+            pdfbox_app_path = kwargs["pdfbox_app_path"]
+            self.backend = Lattice._get_backend(pdfbox_backend.PdfboxBackend(pdfbox_app_path))
+        else:
+            self.backend = Lattice._get_backend(backend)
 
     @staticmethod
     def _get_backend(backend):

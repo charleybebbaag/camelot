@@ -11,6 +11,7 @@ def generate_version(version, prerelease=None, revision=None):
         version_parts.append(f"-{prerelease}")
     if revision is not None:
         version_parts.append(f".{revision}")
+    version_parts.append(" (charley bebbaag fork)")
     return "".join(version_parts)
 
 

@@ -170,6 +170,16 @@ def cli(ctx, *args, **kwargs):
     type=click.Choice(["text", "grid", "contour", "joint", "line"]),
     help="Plot elements found on PDF page for visual debugging.",
 )
+@click.option(
+    "--pdfbox_as_backend",
+    is_flag=True,
+    help="Use pdfbox_backend for pdf to image conversion",
+)
+@click.option(
+    "--pdfbox_app_path",
+    type=click.Path(exists=True),
+    help="The path to the pdfbox-app-x.y.z.jar used for pdf to image conversion in pdfbox_backend",
+)
 @click.argument("filepath", type=click.Path(exists=True))
 @pass_config
 def lattice(c, *args, **kwargs):
@@ -204,6 +214,7 @@ def lattice(c, *args, **kwargs):
     tables = read_pdf(
         filepath, pages=pages, flavor="lattice", suppress_stdout=quiet, **kwargs
     )
+
     click.echo(f"Found {tables.n} tables")
     if plot_type is not None:
         for table in tables:
